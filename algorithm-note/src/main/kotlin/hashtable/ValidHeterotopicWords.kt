@@ -1,5 +1,7 @@
 package freesme.top.hashtable
 
+import java.util.*
+
 /**
  * 有效的字母异位词
  * https://leetcode.cn/problems/valid-anagram/description/
@@ -10,11 +12,12 @@ package freesme.top.hashtable
  *  说明: 你可以假设字符串只包含小写字母
  */
 
+/**
+ * 使用两个map，较差的解法
+ */
 fun isValidWords(s: String, t: String): Boolean {
 
-    if (s.length != t.length) {
-        return false;
-    }
+    if (equalLength(s, t)) return false
 
     val map1 = mutableMapOf<Char, Int>()
     val map2 = mutableMapOf<Char, Int>()
@@ -33,6 +36,45 @@ fun isValidWords(s: String, t: String): Boolean {
     return true;
 }
 
+/**
+ * 只使用一个map
+ */
+fun isValidWords2(s: String, t: String): Boolean {
+    if (equalLength(s, t)) return false
+
+    val map = mutableMapOf<Char, Int>();
+    for (i in s.indices) {
+        val char = s[i]
+        map[char] = map.getOrDefault(char, 0) + 1
+        val char2 = t[i]
+        map[char2] = map.getOrDefault(char2, 0) - 1
+    }
+
+    for (entry in map) {
+        if (entry.value != 0) {
+            return false
+        }
+    }
+    return true;
+}
+
+/**
+ * 使用排序
+ */
+fun isValidWords3(s: String, t: String): Boolean {
+
+    if (equalLength(s, t)) return false
+    val sArr = s.toCharArray()
+    Arrays.sort(sArr)
+    val tArr = t.toCharArray()
+    Arrays.sort(tArr)
+    return String(sArr) == String(tArr)
+
+}
+
+private fun equalLength(s: String, t: String): Boolean {
+    return s.length != t.length
+}
 
 fun main() {
     println(isValidWords("car", "rac"))
