@@ -58,6 +58,22 @@ fun isValidWords2(s: String, t: String): Boolean {
     return true;
 }
 
+fun isValidWordsBetterThan2(s: String, t: String): Boolean {
+    if (equalLength(s, t)) return false
+    val record = IntArray(26)
+    for (i in s.indices) {
+        record[s[i] - 'a']++
+        record[t[i] - 'a']--
+    }
+    for (i in record) {
+        if (i != 0) {
+            return false
+        }
+    }
+    return true;
+
+}
+
 /**
  * 使用排序
  */
