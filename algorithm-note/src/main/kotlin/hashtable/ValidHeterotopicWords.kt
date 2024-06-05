@@ -1,5 +1,6 @@
 package freesme.top.hashtable
 
+import freesme.top.utils.runTime
 import java.util.*
 
 /**
@@ -17,7 +18,7 @@ import java.util.*
  */
 fun isValidWords(s: String, t: String): Boolean {
 
-    if (equalLength(s, t)) return false
+    if (notEqualLength(s, t)) return false
 
     val map1 = mutableMapOf<Char, Int>()
     val map2 = mutableMapOf<Char, Int>()
@@ -40,7 +41,7 @@ fun isValidWords(s: String, t: String): Boolean {
  * 只使用一个map
  */
 fun isValidWords2(s: String, t: String): Boolean {
-    if (equalLength(s, t)) return false
+    if (notEqualLength(s, t)) return false
 
     val map = mutableMapOf<Char, Int>();
     for (i in s.indices) {
@@ -59,7 +60,7 @@ fun isValidWords2(s: String, t: String): Boolean {
 }
 
 fun isValidWordsBetterThan2(s: String, t: String): Boolean {
-    if (equalLength(s, t)) return false
+    if (notEqualLength(s, t)) return false
     val record = IntArray(26)
     for (i in s.indices) {
         record[s[i] - 'a']++
@@ -71,7 +72,6 @@ fun isValidWordsBetterThan2(s: String, t: String): Boolean {
         }
     }
     return true;
-
 }
 
 /**
@@ -79,7 +79,7 @@ fun isValidWordsBetterThan2(s: String, t: String): Boolean {
  */
 fun isValidWords3(s: String, t: String): Boolean {
 
-    if (equalLength(s, t)) return false
+    if (notEqualLength(s, t)) return false
     val sArr = s.toCharArray()
     Arrays.sort(sArr)
     val tArr = t.toCharArray()
@@ -88,11 +88,13 @@ fun isValidWords3(s: String, t: String): Boolean {
 
 }
 
-private fun equalLength(s: String, t: String): Boolean {
+private fun notEqualLength(s: String, t: String): Boolean {
     return s.length != t.length
 }
 
 fun main() {
-    println(isValidWords("car", "rac"))
-    println(isValidWords("ca2r", "rac"))
+    runTime("isValidWords2") { isValidWords2("car", "rac") }
+    // fastest
+    runTime("isValidWordsBetterThan2") { isValidWordsBetterThan2("car", "rac") }
+    runTime("isValidWords3") { isValidWords3("car", "rac") }
 }
